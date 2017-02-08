@@ -121,10 +121,6 @@ if [ "$1" = 'mysqld' ]; then
 
 	chown -R mysql:mysql "$DATADIR"
 
-        IP=$(hostname -i)
-        set -- "$@" --group-replication-local-address="$IP:6606" --group-replication-ip-whitelist="$IP/8" --server-id=1
- 
-        echo "$@"
 
 fi
 

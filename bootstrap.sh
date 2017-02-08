@@ -14,7 +14,6 @@ if [ "$BOOTSTRAP_ENABLED" == "1" ]; then
         GRANT REPLICATION SLAVE ON *.* TO '$MYSQL_REPLICATION_USER'@'%';
         FLUSH PRIVILEGES;
         " | "${mysql[@]}"
-        set -- "$@" --group_replication_bootstrap_group=ON --group_replication_group_seeds=''
 else
         echo "BOOTSTRAP DISABLED"
         echo "RESET MASTER;" | "${mysql[@]}"
