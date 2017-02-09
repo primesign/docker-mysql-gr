@@ -37,10 +37,10 @@ if [ "$1" = 'mysqld' ]; then
 		"$@" --initialize-insecure=on --group_replication_start_on_boot=OFF
 		echo 'Database initialized'
 
-		"$@" --skip-networking --group_replication_start_on_boot=OFF &
+		"$@" --skip-networking --group_replication_start_on_boot=OFF --socket=/var/run/mysqld/mysqld.sock &
 		pid="$!"
 
-		mysql=( mysql --protocol=socket -uroot )
+		mysql=( mysql --protocol=socket -uroot -hlocalhost --socket=/var/run/mysqld/mysqld.sock)
 
 		for i in {30..0}; do
 			if echo 'SELECT 1' | "${mysql[@]}" &> /dev/null; then
@@ -71,7 +71,7 @@ if [ "$1" = 'mysqld' ]; then
 			-- What's done in this file shouldn't be replicated
 			--  or products like mysql-fabric won't work
 			SET @@SESSION.SQL_LOG_BIN=0;
-			DELETE FROM mysql.user WHERE user NOT IN ('mysql.sys', 'mysqlxsys', '_gr_user', 'root') OR host NOT IN ('localhost');
+			DELETE FROM mysql.user WHERE user NOT IN ('mysql.sys', 'mysqlxsys', 'root') OR host NOT IN ('localhost');
 			${ROOTCREATE}
 			DROP DATABASE IF EXISTS test ;
 			FLUSH PRIVILEGES ;
@@ -120,8 +120,6 @@ if [ "$1" = 'mysqld' ]; then
 	fi
 
 	chown -R mysql:mysql "$DATADIR"
-
-
 fi
 
 exec "$@"
