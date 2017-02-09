@@ -37,7 +37,7 @@ if [ "$1" = 'mysqld' ]; then
 		"$@" --initialize-insecure=on --group_replication_start_on_boot=OFF
 		echo 'Database initialized'
 
-		"$@" --skip-networking &
+		"$@" --skip-networking --group_replication_start_on_boot=OFF &
 		pid="$!"
 
 		mysql=( mysql --protocol=socket -uroot )
