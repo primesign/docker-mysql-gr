@@ -34,7 +34,7 @@ if [ "$1" = 'mysqld' ]; then
 		chown -R mysql:mysql "$DATADIR"
 
 		echo 'Initializing database'
-		"$@" --initialize-insecure=on
+		"$@" --initialize-insecure=on --group_replication_start_on_boot=OFF
 		echo 'Database initialized'
 
 		"$@" --skip-networking &
