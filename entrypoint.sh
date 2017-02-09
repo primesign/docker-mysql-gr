@@ -71,7 +71,7 @@ if [ "$1" = 'mysqld' ]; then
 			-- What's done in this file shouldn't be replicated
 			--  or products like mysql-fabric won't work
 			SET @@SESSION.SQL_LOG_BIN=0;
-			DELETE FROM mysql.user WHERE user NOT IN ('mysql.sys', 'mysqlxsys', 'root') OR host NOT IN ('localhost');
+			DELETE FROM mysql.user WHERE user NOT IN ('mysql.sys', 'mysqlxsys', '_gr_user', 'root') OR host NOT IN ('localhost');
 			${ROOTCREATE}
 			DROP DATABASE IF EXISTS test ;
 			FLUSH PRIVILEGES ;
